@@ -1,0 +1,24 @@
+{
+  "name": "memeroulette",
+  "version": "1.0.0",
+  "description": "A discord bot that takes a user's message ID and places the contents of the message on a random meme template.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orangegameube/memeroulette.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/orangegameube/memeroulette/issues"
+  },
+  "homepage": "https://github.com/orangegameube/memeroulette#readme",
+  "dependencies": {
+    "discord.js": "^14.22.1"
+  }
+}
