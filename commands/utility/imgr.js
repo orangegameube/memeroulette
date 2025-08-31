@@ -3,32 +3,207 @@ const Canvas = require('@napi-rs/canvas');
 const { createCanvas, Image } = require('@napi-rs/canvas')
 const { SlashCommandBuilder } = require('discord.js');
 
+
+
 const applyText = (canvas, text) => {
 	const context = canvas.getContext('2d');
-	let fontSize = 70;
+
+	let fontSize = 50;
 
 	do {
-		context.font = `${fontSize -= 10}px sans-serif`;
-	} while (context.measureText(text).width > canvas.width - 300);
+		// Assign the font to the context and decrement it so it can be measured again
+		context.font = `${fontSize -= 5}px Sans-Serif`;
 
+		// Compare pixel width of the text to the canvas
+	} while (context.measureText(text).width > canvas.width - 14);
+
+	// Return the result to use in the actual canvas
 	return context.font;
 };
+
+
 
 module.exports = {
 
   data: new SlashCommandBuilder()
-    .setName('meme_generator')
-    .setDescription('Create a random meme from a message'),
+    .setName('tumblr_drivethru')
+    .setDescription('Create the drive thru traumadump meme using a previous message.')
+	.addStringOption(option =>
+      option.setName('messageid').setDescription('Message ID to fetch').setRequired(true)
+    ),
 
-  async execute(interaction) {
-    	const canvas = createCanvas(250, 500);
-		const context = canvas.getContext('2d');
-		const background = await Canvas.loadImage('./meme_folder/drivethru.webp');
-		
-		context.drawImage(background, 0, 0, canvas.width, canvas.height);
+	async execute(interaction) {
 
-		const attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'profile-image.png' });
+		const messageId = interaction.options.getString('messageid');
+		const msg = await interaction.channel.messages.fetch(messageId);
+		const msgdata = msg.content
 
-		interaction.reply({ files: [attachment] });
+		// smaller image for smaller text
+		if (msgdata.length <= 150){
+			const canvas = createCanvas(640, 881);
+			const context = canvas.getContext('2d');
+			const background = await Canvas.loadImage('./meme_folder/drivethru.webp');
+			
+			context.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+
+
+
+			const msgarr = [];
+			if (msgdata.length >= 20) {
+				let sep = Math.floor(msgdata.length/2);
+				let msg1 = msgdata.slice(0, sep);
+				let msg2 = msgdata.slice(sep, msgdata.length);
+				msgarr.push(msg1);
+				msgarr.push(msg2);
+			}
+			else {
+				msgarr.push(msgdata);
+			}
+
+			var n = 0;
+			for (const element of msgarr) {
+				context.font = applyText(canvas, element);
+				context.fillStyle = 'black';
+				context.fillText(element, 20, 30 + n);
+				n += 26;
+			}
+
+
+
+
+			const attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'drivethru_small.png' });
+
+			interaction.reply({ files: [attachment] });
+		}
+
+
+
+
+		// create larger image for larger messages
+		else {
+			const canvas = createCanvas(640, 1260);
+			const context = canvas.getContext('2d');
+			const background = await Canvas.loadImage('./meme_folder/newdrivethru.jpg');
+			
+			context.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+
+
+
+			const msgarr = [];
+			if (msgdata.length >= 400) {
+				msgarr.push('bruh this text is WAY too long wtf????');
+			}
+			else if (msgdata.length >= 360) {
+				let sep = Math.floor(msgdata.length/10);
+				let msg1 = msgdata.slice(0, sep);
+				let msg2 = msgdata.slice(sep, sep*2);
+				msgarr.push(msg1);
+				msgarr.push(msg2);
+				msgarr.push(msgdata.slice(sep*2, sep*3));
+				msgarr.push(msgdata.slice(sep*3, sep*4));
+				msgarr.push(msgdata.slice(sep*4, sep*5));
+				msgarr.push(msgdata.slice(sep*5, sep*6));
+				msgarr.push(msgdata.slice(sep*6, sep*7));
+				msgarr.push(msgdata.slice(sep*7, sep*8));
+				msgarr.push(msgdata.slice(sep*8, sep*9));
+				msgarr.push(msgdata.slice(sep*9, msgdata.length));
+			}
+			else if (msgdata.length >= 330) {
+				let sep = Math.floor(msgdata.length/9);
+				let msg1 = msgdata.slice(0, sep);
+				let msg2 = msgdata.slice(sep, sep*2);
+				msgarr.push(msg1);
+				msgarr.push(msg2);
+				msgarr.push(msgdata.slice(sep*2, sep*3));
+				msgarr.push(msgdata.slice(sep*3, sep*4));
+				msgarr.push(msgdata.slice(sep*4, sep*5));
+				msgarr.push(msgdata.slice(sep*5, sep*6));
+				msgarr.push(msgdata.slice(sep*6, sep*7));
+				msgarr.push(msgdata.slice(sep*7, sep*8));
+				msgarr.push(msgdata.slice(sep*8, msgdata.length));
+			}
+			else if (msgdata.length >= 300) {
+				let sep = Math.floor(msgdata.length/8);
+				let msg1 = msgdata.slice(0, sep);
+				let msg2 = msgdata.slice(sep, sep*2);
+				msgarr.push(msg1);
+				msgarr.push(msg2);
+				msgarr.push(msgdata.slice(sep*2, sep*3));
+				msgarr.push(msgdata.slice(sep*3, sep*4));
+				msgarr.push(msgdata.slice(sep*4, sep*5));
+				msgarr.push(msgdata.slice(sep*5, sep*6));
+				msgarr.push(msgdata.slice(sep*6, sep*7));
+				msgarr.push(msgdata.slice(sep*7, msgdata.length));
+			}
+			else if (msgdata.length >= 270) {
+				let sep = Math.floor(msgdata.length/7);
+				let msg1 = msgdata.slice(0, sep);
+				let msg2 = msgdata.slice(sep, sep*2);
+				msgarr.push(msg1);
+				msgarr.push(msg2);
+				msgarr.push(msgdata.slice(sep*2, sep*3));
+				msgarr.push(msgdata.slice(sep*3, sep*4));
+				msgarr.push(msgdata.slice(sep*4, sep*5));
+				msgarr.push(msgdata.slice(sep*5, sep*6));
+				msgarr.push(msgdata.slice(sep*6, msgdata.length));
+			}
+			else if (msgdata.length >= 240) {
+				let sep = Math.floor(msgdata.length/6);
+				let msg1 = msgdata.slice(0, sep);
+				let msg2 = msgdata.slice(sep, sep*2);
+				msgarr.push(msg1);
+				msgarr.push(msg2);
+				msgarr.push(msgdata.slice(sep*2, sep*3));
+				msgarr.push(msgdata.slice(sep*3, sep*4));
+				msgarr.push(msgdata.slice(sep*4, sep*5));
+				msgarr.push(msgdata.slice(sep*5, msgdata.length));
+			}
+			else if (msgdata.length >= 210) {
+				let sep = Math.floor(msgdata.length/5);
+				let msg1 = msgdata.slice(0, sep);
+				let msg2 = msgdata.slice(sep, sep*2);
+				msgarr.push(msg1);
+				msgarr.push(msg2);
+				msgarr.push(msgdata.slice(sep*2, sep*3));
+				msgarr.push(msgdata.slice(sep*3, sep*4));
+				msgarr.push(msgdata.slice(sep*4, msgdata.length));
+			}
+			else if (msgdata.length >= 180) {
+				let sep = Math.floor(msgdata.length/4);
+				let msg1 = msgdata.slice(0, sep);
+				let msg2 = msgdata.slice(sep, sep*2);
+				msgarr.push(msg1);
+				msgarr.push(msg2);
+				msgarr.push(msgdata.slice(sep*2, sep*3));
+				msgarr.push(msgdata.slice(sep*3, msgdata.length));
+			}
+			else {
+				let sep = Math.floor(msgdata.length/3);
+				let msg1 = msgdata.slice(0, sep);
+				let msg2 = msgdata.slice(sep, sep*2);
+				let msg3 = msgdata.slice(sep*2, msgdata.length);
+				msgarr.push(msg1);
+				msgarr.push(msg2);
+				msgarr.push(msg3);
+			}
+
+			var n = 0;
+			for (const element of msgarr) {
+				context.font = '30 px Arial';
+				context.fillStyle = 'black';
+				context.fillText(element, 20, 30 + n);
+				n += 40;
+			}
+
+
+
+
+			const attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'drivethru_small.png' });
+
+			interaction.reply({ files: [attachment] });
+		}
+    	
 	}
 };
