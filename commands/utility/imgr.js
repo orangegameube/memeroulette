@@ -202,7 +202,7 @@ module.exports = {
 
 
 
-			const attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'drivethru_small.png' });
+			const attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'drivethru_large.png' });
 
 			interaction.reply({ files: [attachment] });
 		}
