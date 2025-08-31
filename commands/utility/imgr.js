@@ -1,6 +1,6 @@
 const { AttachmentBuilder, Client, Events, GatewayIntentBits } = require('discord.js');
 const Canvas = require('@napi-rs/canvas');
-const { createCanvas, Image } = require('@napi-rs/canvas')
+const { createCanvas } = require('@napi-rs/canvas')
 const { SlashCommandBuilder } = require('discord.js');
 
 
@@ -12,7 +12,7 @@ const applyText = (canvas, text) => {
 
 	do {
 		// Assign the font to the context and decrement it so it can be measured again
-		context.font = `${fontSize -= 5}px Sans-Serif`;
+		context.font = `${fontSize -= 7}px Sans-Serif`;
 
 		// Compare pixel width of the text to the canvas
 	} while (context.measureText(text).width > canvas.width - 14);
@@ -65,7 +65,7 @@ module.exports = {
 			for (const element of msgarr) {
 				context.font = applyText(canvas, element);
 				context.fillStyle = 'black';
-				context.fillText(element, 20, 30 + n);
+				context.fillText(element, 20, 40 + n);
 				n += 26;
 			}
 
@@ -95,7 +95,7 @@ module.exports = {
 			if (msgdata.length >= 400) {
 				msgarr.push('bruh this text is WAY too long wtf????');
 			}
-			else if (msgdata.length >= 360) {
+			else if (msgdata.length >= 350) {
 				let sep = Math.floor(msgdata.length/10);
 				let msg1 = msgdata.slice(0, sep);
 				let msg2 = msgdata.slice(sep, sep*2);
@@ -107,10 +107,10 @@ module.exports = {
 				msgarr.push(msgdata.slice(sep*5, sep*6));
 				msgarr.push(msgdata.slice(sep*6, sep*7));
 				msgarr.push(msgdata.slice(sep*7, sep*8));
-				msgarr.push(msgdata.slice(sep*8, sep*9));
-				msgarr.push(msgdata.slice(sep*9, msgdata.length));
+				msgarr.push(msgdata.slice(sep*8, (sep*9)+1));
+				msgarr.push(msgdata.slice((sep*9)+1, msgdata.length));
 			}
-			else if (msgdata.length >= 330) {
+			else if (msgdata.length >= 320) {
 				let sep = Math.floor(msgdata.length/9);
 				let msg1 = msgdata.slice(0, sep);
 				let msg2 = msgdata.slice(sep, sep*2);
@@ -121,10 +121,10 @@ module.exports = {
 				msgarr.push(msgdata.slice(sep*4, sep*5));
 				msgarr.push(msgdata.slice(sep*5, sep*6));
 				msgarr.push(msgdata.slice(sep*6, sep*7));
-				msgarr.push(msgdata.slice(sep*7, sep*8));
-				msgarr.push(msgdata.slice(sep*8, msgdata.length));
+				msgarr.push(msgdata.slice(sep*7, (sep*8)+1));
+				msgarr.push(msgdata.slice((sep*8)+1, msgdata.length));
 			}
-			else if (msgdata.length >= 300) {
+			else if (msgdata.length >= 290) {
 				let sep = Math.floor(msgdata.length/8);
 				let msg1 = msgdata.slice(0, sep);
 				let msg2 = msgdata.slice(sep, sep*2);
@@ -134,10 +134,10 @@ module.exports = {
 				msgarr.push(msgdata.slice(sep*3, sep*4));
 				msgarr.push(msgdata.slice(sep*4, sep*5));
 				msgarr.push(msgdata.slice(sep*5, sep*6));
-				msgarr.push(msgdata.slice(sep*6, sep*7));
-				msgarr.push(msgdata.slice(sep*7, msgdata.length));
+				msgarr.push(msgdata.slice(sep*6, (sep*7)+1));
+				msgarr.push(msgdata.slice((sep*7)+1, msgdata.length));
 			}
-			else if (msgdata.length >= 270) {
+			else if (msgdata.length >= 260) {
 				let sep = Math.floor(msgdata.length/7);
 				let msg1 = msgdata.slice(0, sep);
 				let msg2 = msgdata.slice(sep, sep*2);
@@ -146,10 +146,10 @@ module.exports = {
 				msgarr.push(msgdata.slice(sep*2, sep*3));
 				msgarr.push(msgdata.slice(sep*3, sep*4));
 				msgarr.push(msgdata.slice(sep*4, sep*5));
-				msgarr.push(msgdata.slice(sep*5, sep*6));
-				msgarr.push(msgdata.slice(sep*6, msgdata.length));
+				msgarr.push(msgdata.slice(sep*5, (sep*6)+1));
+				msgarr.push(msgdata.slice((sep*6)+1, msgdata.length));
 			}
-			else if (msgdata.length >= 240) {
+			else if (msgdata.length >= 230) {
 				let sep = Math.floor(msgdata.length/6);
 				let msg1 = msgdata.slice(0, sep);
 				let msg2 = msgdata.slice(sep, sep*2);
@@ -160,7 +160,7 @@ module.exports = {
 				msgarr.push(msgdata.slice(sep*4, sep*5));
 				msgarr.push(msgdata.slice(sep*5, msgdata.length));
 			}
-			else if (msgdata.length >= 210) {
+			else if (msgdata.length >= 200) {
 				let sep = Math.floor(msgdata.length/5);
 				let msg1 = msgdata.slice(0, sep);
 				let msg2 = msgdata.slice(sep, sep*2);
@@ -170,7 +170,7 @@ module.exports = {
 				msgarr.push(msgdata.slice(sep*3, sep*4));
 				msgarr.push(msgdata.slice(sep*4, msgdata.length));
 			}
-			else if (msgdata.length >= 180) {
+			else if (msgdata.length >= 170) {
 				let sep = Math.floor(msgdata.length/4);
 				let msg1 = msgdata.slice(0, sep);
 				let msg2 = msgdata.slice(sep, sep*2);
@@ -190,11 +190,13 @@ module.exports = {
 			}
 
 			var n = 0;
+			var s = ((100 - (msgarr.length * 9)) + 54);
 			for (const element of msgarr) {
 				context.font = '30 px Arial';
 				context.fillStyle = 'black';
-				context.fillText(element, 20, 30 + n);
-				n += 40;
+				yval = s + n
+				context.fillText(element, 20, yval);
+				n += 35;
 			}
 
 
