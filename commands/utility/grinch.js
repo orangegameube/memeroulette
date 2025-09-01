@@ -8,17 +8,17 @@ const { SlashCommandBuilder } = require('discord.js');
 const applyText = (canvas, text) => {
 	const context = canvas.getContext('2d');
 
-	let fontSize = 50;
+	let fontSize = 100;
 
 	do {
 		// Assign the font to the context and decrement it so it can be measured again
 		context.font = `${fontSize -= 3}px Arial`;
 
 		// Compare pixel width of the text to the canvas
-	} while (context.measureText(text).width > canvas.width - 14);
+	} while (context.measureText(text).width > canvas.width - 6);
 
 	// Return the result to use in the actual canvas
-	return [(context.font).toString()];
+	return context.font;
 };
 
 
@@ -57,10 +57,10 @@ module.exports = {
 		}
 
         var n = 0;
-        var s = 70 - (msgarr.length * 10);
+        var s = 70 - (msgarr.length * 14);
         context.textAlign = "center";
         for (const element of msgarr) {
-            context.font = (applyText(canvas, element))[0];
+            context.font = applyText(canvas, element);
             context.fillStyle = 'black';
             context.fillText(element, (canvas.width / 2), s + n);
             n += 220;
